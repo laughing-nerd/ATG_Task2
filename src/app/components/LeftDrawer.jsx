@@ -22,8 +22,11 @@ const LeftDrawer = ({ platform }) => {
       })
   }, []);
   const showUsers = (e) => {
+    if (Object.keys(currentUser).length === 0 && users.length !== 0)
+      setCurrentUser(users[0])
+
     let className = `${styles.users}`;
-    if (e === currentUser)
+    if (e.id === currentUser.id)
       className = className + ` ${styles.selectedUser}`;
 
     return (<>
@@ -46,14 +49,11 @@ const LeftDrawer = ({ platform }) => {
     )
   }
 
-  if (Object.keys(currentUser).length === 0 && users.length !== 0)
-    setCurrentUser(users[0])
-
   return (
     <div className={platform === "mobile" ? styles.leftDrawerMobile : styles.leftDrawerDesktop}>
-    <form>
-      <input name="search" type="text" placeholder="&#128269; Search for a person" className={`${styles.search} form-control rounded my-2`} onChange={(e) => setQuery(e.target.value)} />
-    </form>
+      <form>
+        <input name="search" type="text" placeholder="&#128269; Search for a person" className={`${styles.search} form-control rounded my-2`} onChange={(e) => setQuery(e.target.value)} />
+      </form>
 
       {users.length === 0
         ? <Spinner />
@@ -69,7 +69,7 @@ const LeftDrawer = ({ platform }) => {
             ) : (
               users
                 .filter((x) => {
-                  const name = x.profile.firstName+ " "+x.profile.lastName;
+                  const name = x.profile.firstName + " " + x.profile.lastName;
                   return query.toLowerCase() === '' ? x : name.toLowerCase().includes(query.toLowerCase());
                 })
                 .map(showUsers)
