@@ -10,7 +10,6 @@ const LeftDrawer = ({ platform }) => {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const [users, setUsers] = useState([]);
   const [query, setQuery] = useState("");
-  const [counter, setCounter] = useState(0);
 
   useEffect(() => {
     import('bootstrap/dist/js/bootstrap')
@@ -22,10 +21,6 @@ const LeftDrawer = ({ platform }) => {
         console.log(error);
       })
   }, []);
-  const handleUserSelection = (selectedUser) => {
-    setCurrentUser(selectedUser);
-    // Optionally, you can perform any other logic here related to user selection.
-  };
   const showUsers = (e) => {
     let className = `${styles.users}`;
     if (e === currentUser)
@@ -36,8 +31,7 @@ const LeftDrawer = ({ platform }) => {
         Object.keys(e).length === 0
           ? <div>Person not found</div>
           : <div className={className}
-            onClick={() => handleUserSelection(e)}
-            // onClick={() => { setCurrentUser(e); setCounter(counter + 1) }}
+            onClick={() => setCurrentUser(e)}
             data-bs-dismiss={platform === "mobile" ? "offcanvas" : null}
           >            {
               e.avatar.includes("cdn.fakercloud.com")
@@ -57,7 +51,9 @@ const LeftDrawer = ({ platform }) => {
 
   return (
     <div className={platform === "mobile" ? styles.leftDrawerMobile : styles.leftDrawerDesktop}>
-      <input type="text" placeholder="&#128269; Search for a person" className={`${styles.search} form-control rounded my-2`} onChange={(e) => setQuery(e.target.value)} />
+    <form>
+      <input name="search" type="text" placeholder="&#128269; Search for a person" className={`${styles.search} form-control rounded my-2`} onChange={(e) => setQuery(e.target.value)} />
+    </form>
 
       {users.length === 0
         ? <Spinner />
