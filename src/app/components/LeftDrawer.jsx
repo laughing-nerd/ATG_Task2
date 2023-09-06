@@ -69,7 +69,7 @@ const LeftDrawer = ({ platform }) => {
             ) : (
               users
                 .filter((x) => {
-                  const name = x.profile.firstName + x.profile.lastName;
+                  const name = x.profile.firstName+ " "+x.profile.lastName;
                   return query.toLowerCase() === '' ? x : name.toLowerCase().includes(query.toLowerCase());
                 })
                 .map(showUsers)
